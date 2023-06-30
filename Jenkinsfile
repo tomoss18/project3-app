@@ -6,7 +6,7 @@ pipeline {
         copyArtifact artifact: 'app.py', target: 'workspace'
         sh 'python app.py'
 
-        def buildStep = MySimpleBuildStep()
+        def buildStep = new MySimpleBuildStep()
         step(delegate: true, buildStep: buildStep) {
           script {
             // Example file operations using hudson.FilePath
