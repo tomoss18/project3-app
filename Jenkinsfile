@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Deploy') {
       steps {
-        copyArtifacts filter: 'app.py', projectName: 'YourProjectName', selector: lastSuccessful()
+        copyArtifacts filter: 'app.py', projectName: 'project3-app', selector: lastSuccessful()
         sh 'python app.py'
 
         script {
