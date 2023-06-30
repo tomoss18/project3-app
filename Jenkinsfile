@@ -1,7 +1,7 @@
 stage('Checkout') {
     // Checkout the source code from the repository
     // Use the appropriate SCM plugin (e.g., Git)
-    git credentialsId: '5fbcd7ca-3da0-48a8-96f3-92c06a9c1363', url: 'https://github.com/tomoss18/project3-app'
+    git branch: 'main', credentialsId: '2ae3f549-9bb6-4e5a-97f1-39adad2112a2', url: 'https://github.com/tomoss18/project3-app'
 }
 
 stage('Build') {
