@@ -6,8 +6,12 @@ pipeline {
         copyArtifact artifact: 'app.py', target: 'workspace'
         sh 'python app.py'
 
-        step(delegate: true, buildStep: buildStep) {
-          script {
+        script {
+          step([$class: 'BuildTrigger', 
+                child: true, 
+                threshold: 1, 
+                thresholdStart: 1, 
+                parent: true]) {
             // Example file operations using hudson.FilePath
             def workspacePath = new hudson.FilePath(workspace)
             def filePath = workspacePath.child('website_files/app.py')
