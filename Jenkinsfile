@@ -3,27 +3,21 @@ pipeline {
   stages {
     stage('Deploy') {
       steps {
-        copyArtifact artifact: 'app.py', target: 'workspace'
+        copyArtifacts filter: 'app.py', projectName: 'YourProjectName', selector: lastSuccessful()
         sh 'python app.py'
 
         script {
-          step([$class: 'BuildTrigger', 
-                child: true, 
-                threshold: 1, 
-                thresholdStart: 1, 
-                parent: true]) {
-            // Example file operations using hudson.FilePath
-            def workspacePath = new hudson.FilePath(workspace)
-            def filePath = workspacePath.child('website_files/app.py')
+          // Example file operations using workspace
+          def workspacePath = env.WORKSPACE
+          def filePath = workspacePath + '/website_files/app.py'
 
-            if (filePath.exists()) {
-              echo 'File exists!'
-              def fileContents = filePath.readToString()
-              // Perform additional operations with the file
-              println "File Contents: $fileContents"
-            } else {
-              error('File does not exist!')
-            }
+          if (fileExists(filePath)) {
+            echo 'File exists!'
+            def fileContents = readFile(filePath)
+            // Perform additional operations with the file
+            println "File Contents: $fileContents"
+          } else {
+            error('File does not exist!')
           }
         }
       }
